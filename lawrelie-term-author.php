@@ -54,15 +54,10 @@ function filter_taxonomyEditForm(WP_Term $tag, string $taxonomy): void {
                             $ancestor = $tag;
                             $authorId = 0;
                             $metaValue = sanitizeId(\get_term_meta($tag->term_id, $metaKey, true));
-                            while (true) {
-                                $ancestor = \get_term($ancestor->parent, $ancestor->taxonomy);
-                                if (!($ancestor instanceof WP_Term)) {
-                                    break;
-                                }
-                                $authorId = sanitizeId(\get_term_meta($ancestor->term_id, $metaKey, true));
-                                if (!!$authorId) {
-                                    break;
-                                }
+                            $parentTag = \get_term($tag->parent, $tag->taxonomy);
+                            if ($parentTag instanceof WP_Term) {
+                                $author = getAuthor($parentTag);
+                                $authorId = !$author ? $authorId : $author->ID;
                             }
                             $authorId = !$authorId ? \get_metadata_default('term', $tag->term_id, $metaKey, true) : $authorId;
                             foreach ([0, ...\get_users()] as $user) {
@@ -78,7 +73,7 @@ function filter_taxonomyEditForm(WP_Term $tag, string $taxonomy): void {
                                         }
                                         echo '）';
                                     } else {
-                                        echo \esc_html($user->display_name);
+                                        \the_author_meta('display_name', $user->ID);
                                     }
                                 ?></option>
                                 <?php
@@ -91,6 +86,18 @@ function filter_taxonomyEditForm(WP_Term $tag, string $taxonomy): void {
         </table>
     </fieldset>
     <?php
+}
+function getAuthor(WP_Term $term): ?\WP_User {
+    $metaKey = metaKey('authorId');
+    while ($term instanceof WP_Term) {
+        $id = sanitizeId(\get_term_meta($term->term_id, $metaKey, true));
+        if (!!$id) {
+            $user = \get_userdata($id);
+            return !$user ? null : $user;
+        }
+        $term = \get_term($term->parent, $term->taxonomy);
+    }
+    return null;
 }
 function metaKey(string $key): string {
     return "lawrelieTermAuthor_$key";
