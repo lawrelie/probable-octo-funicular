@@ -1,7 +1,7 @@
 <?php
 namespace Lawrelie\WordPress\TermAuthor;
 // Plugin Name: lawrelie-term-author
-// Description: WordPress のユーザーとタームを関連付けるプラグイン
+// Description: ユーザーとタームを関連付けるプラグイン
 // Version: 0.1.0-alpha
 // Requires at least: 5.5
 // Tested up to: 5.7
