@@ -1,11 +1,12 @@
 <?php
-use Lawrelie\ProbableOctoFunicular as lpof;
+use Lawrelie\WordPress\TermAuthor as lwta;
+require_once __DIR__ . '/lawrelie-term-author.php';
 $terms = get_terms();
 if (is_wp_error($terms)) {
     return;
 }
 foreach ($terms as $term) {
-    foreach (lpof\META_KEYS as $key) {
-        delete_term_meta($term->term_id, lpof\metaKey($key));
+    foreach (lwta\META_KEYS as $key) {
+        delete_term_meta($term->term_id, lwta\metaKey($key));
     }
 }

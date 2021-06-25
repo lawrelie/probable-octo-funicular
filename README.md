@@ -1,2 +1,2 @@
-# probable-octo-funicular
+# term-author.wordpress
 WordPress のユーザーとタームを関連付けるプラグイン

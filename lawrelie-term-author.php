@@ -1,12 +1,12 @@
 <?php
-namespace Lawrelie\ProbableOctoFunicular;
-// Plugin Name: lawrelie-probable-octo-funicular
+namespace Lawrelie\WordPress\TermAuthor;
+// Plugin Name: lawrelie-term-author
 // Description: WordPress のユーザーとタームを関連付けるプラグイン
 // Version: 0.1.0-alpha
 // Requires at least: 5.5
 // Tested up to: 5.7
 // Requires PHP: 7.4
-// Text Domain: lawrelie-probable-octo-funicular
+// Text Domain: lawrelie-term-author
 use WP_Term;
 $constantName = fn(string $name): string => __NAMESPACE__ . '\\' . $name;
 $define = fn(string $name, ...$args): bool => \define($constantName($name), ...$args);
@@ -38,7 +38,7 @@ function filter_init(): void {
 function filter_taxonomyEditForm(WP_Term $tag, string $taxonomy): void {
     ?>
     <fieldset>
-        <legend>lawrelie-probable-octo-funicular</legend>
+        <legend>lawrelie-term-author</legend>
         <p>ユーザーとタームの関連付け</p>
         <table class="form-table" role="presentation">
             <tbody>
@@ -93,7 +93,7 @@ function filter_taxonomyEditForm(WP_Term $tag, string $taxonomy): void {
     <?php
 }
 function metaKey(string $key): string {
-    return "lawrelieProbableOctoFunicular_$key";
+    return "lawrelieTermAuthor_$key";
 }
 function sanitizeId($var): int {
     $id = (int) \filter_var($var, \FILTER_SANITIZE_NUMBER_INT);
